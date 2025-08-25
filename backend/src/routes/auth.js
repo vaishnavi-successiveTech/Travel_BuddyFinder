@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { register, login, me, logout, completeProfile } from "../controllers/authController.js";
+import { authRequired } from "../middleware/auth.js";
+const r = Router();
+r.post("/register", register);
+r.post("/login", login);
+r.get("/me", authRequired, me);
+r.post("/complete",authRequired,completeProfile);
+r.post("/logout", logout);
+export default r;
