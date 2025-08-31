@@ -1,0 +1,7 @@
+type NewUser {
+    _id: ID!
+    name: String!
+    email: String!
+    gender: String
+    createdAt: String
+  }

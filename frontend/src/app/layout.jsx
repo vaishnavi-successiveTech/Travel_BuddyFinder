@@ -14,33 +14,46 @@
 //     </html>
 //   );
 // }
-import './globals.css';
-import { Inter } from 'next/font/google';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { AppProvider } from '@/contexts/AppContext';
-import { Toaster } from 'sonner';
+import "./globals.css";
+import { Inter } from "next/font/google";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { AppProvider } from "@/contexts/AppContext";
+import { Toaster } from "sonner";
+import Providers from "./providers";
+import Navbar from "@/components/layout/Navbar";
+import Sidebar from "@/components/layout/Sidebar";
+import Dashboard from "@/components/pages/Dashboard";
+import { NotificationsProvider } from "@/contexts/NotificationsContext";
+ // ✅ import correctly
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'Travel Buddy Finder',
-  description: 'Find your perfect travel companion for unforgettable adventures',
+  title: "Travel Buddy Finder",
+  description: "Find your perfect travel companion for unforgettable adventures",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        
         <AuthProvider>
           <AppProvider>
+            
+            <Providers>
+            <NotificationsProvider>
             {children}
-            <Toaster position="top-right" />
+          </NotificationsProvider>
+              <Toaster position="top-right" />
+            </Providers>
           </AppProvider>
         </AuthProvider>
       </body>
     </html>
   );
 }
+
 
 // 'use client'
 // import { useState } from "react";

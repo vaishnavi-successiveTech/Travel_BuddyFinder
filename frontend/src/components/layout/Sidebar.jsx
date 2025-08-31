@@ -46,6 +46,8 @@ import {
   Settings,
   X,
   Menu as MenuIcon,
+  User2,
+  User,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -53,7 +55,8 @@ const sidebarItems = [
   { icon: Search, label: "Discover", id: "discover" },
   { icon: Plus, label: "Create Trip", id: "create-trip" },
   { icon: Calendar, label: "My Trips", id: "my-trips" },
-  { icon: Users, label: "My Buddies", id: "buddies" },
+  { icon: Users, label: "My Travel Buddies", id: "buddies" },
+  { icon: User, label: "Complete Profile", id: "complete" },  // ✅ new tab
   { icon: MessageSquare, label: "Messages", id: "messages" },
   { icon: Crown, label: "Premium", id: "premium" },
   { icon: Settings, label: "Settings", id: "settings" },
@@ -64,7 +67,7 @@ export default function Sidebar({ activeTab, onTabChange }) {
 
   return (
     <aside
-      className={`hidden md:flex md:flex-col h-screen bg-emerald-50 shadow-xl transition-all duration-300 ${
+      className={`hidden md:flex md:flex-col min-h-screen bg-emerald-50 shadow-xl transition-all duration-300 ${
         collapsed ? "w-20" : "w-64"
       }`}
     >

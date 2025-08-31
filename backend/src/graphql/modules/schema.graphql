@@ -1,0 +1,15 @@
+type Query {
+  messages(sender: ID!, recipient: ID!): [Message!]!
+  users: [User!]!
+  
+}
+type Mutation {
+  sendMessage(sender: ID!, recipient: ID!, content: String!): Message!
+  markMessageAsRead(messageId: ID!, userId: ID!): Message!
+}
+
+type Subscription {
+  messageSent(recipient: ID!): Message!
+  newUser: NewUser!
+}
+

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -6,28 +6,43 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null); // 👈 store full user info (id, name, etc.)
   const router = useRouter();
 
   // 👇 Check token when app loads (even after refresh)
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
+    const userData = localStorage.getItem("user");
+
+    if (token && userData && userData !== "undefined") {
+      try {
+        setUser(JSON.parse(userData)); // load user object
+        setIsLoggedIn(true);
+      } catch (err) {
+        console.error("Failed to parse user data:", err);
+        localStorage.removeItem("user"); // cleanup bad value
+      }
+    }
   }, []);
 
-  const login = (token) => {
+  const login = (token, userData) => {
     localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(userData)); // 👈 save user in localStorage
     setIsLoggedIn(true);
+    setUser(userData);
     router.push("/");
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user"); // ✅ removing user from localStorage
     setIsLoggedIn(false);
-    router.push("/login");
+    setUser(null); // ✅ clear user state
+    
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, logout,setUser }}>
       {children}
     </AuthContext.Provider>
   );

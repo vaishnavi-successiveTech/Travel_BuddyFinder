@@ -101,7 +101,7 @@ export default function LandingPage() {
   const router = useRouter();
 
   const handleGetStarted = () => {
-    router.push("/profile");
+    router.push("/register");
   };
 
   const handleLogin = () => {

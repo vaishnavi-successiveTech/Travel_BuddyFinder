@@ -8,20 +8,24 @@ const verificationSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true, index: true },
-  email: { type: String, required: true, unique: true, index: true },
+  email: { type: String, required: true, unique: true, index: true ,  lowercase: true, 
+    trim: true },
   phone: { type: String },
   passwordHash: { type: String, required: true },
   age: { type: Number, min: 18, max: 100 },
   gender: { type: String, enum: ["male","female","other"], default: "other" },
+  avatar: { type: String, default: "https://ui-avatars.com/api/?name=User" },
   interests: [{ type: String, index: true }], // "trekking","food","history"
   languages: [{ type: String }],
   travelStyle: [{ type: String }], // "budget","adventure","luxury","history"
   preferences: {
     budget: { type: String, enum: ["low","mid","high"], default: "mid" },
-    preferredGenders: [{ type: String }],
+    preferredGenders: [{ type: String ,default:"any"}],
     activityTypes: [{ type: String }], // "trek","food","sightseeing"
   },
-  profileCompleted: { type: Boolean, default: false }
+  profileCompleted: { type: Boolean, default: false },
+   resetToken: { type: String },   // stores reset token temporarily
+  resetTokenExpiry: { type: Date }
 ,
   visibility: {
     showLimitedUntilTrusted: { type: Boolean, default: true },

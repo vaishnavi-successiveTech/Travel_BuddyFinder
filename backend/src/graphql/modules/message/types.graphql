@@ -1,0 +1,16 @@
+ type Message {
+    _id: ID!
+    sender: User!       # ✅ instead of just ID
+    recipient: User! 
+    content: String!
+    read: Boolean!
+    createdAt: String!
+  }
+
+type User {
+  _id: ID!
+  name: String
+  email: String
+  avatar: String
+  # add any other fields your User model has
+}
