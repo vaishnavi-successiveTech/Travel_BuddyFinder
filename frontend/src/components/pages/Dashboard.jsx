@@ -59,8 +59,8 @@ export default function Dashboard() {
         return <BuddiesTab tripId={currentTripId} />;
       case "messages":
         return <MessagesTab />;
-      case "premium":
-        return <PremiumTab />;
+      // case "premium":
+      //   return <PremiumTab />;
       case "settings":
         return <SettingsTab />;
       default:

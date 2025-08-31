@@ -523,7 +523,7 @@ const ProfileForm = () => {
         <div>
           <label className="block mb-1">Preferred Genders</label>
           <div className="flex gap-2">
-            {["male", "female"].map((gender) => (
+            {["male", "female","any"].map((gender) => (
               <button
                 key={gender}
                 type="button"

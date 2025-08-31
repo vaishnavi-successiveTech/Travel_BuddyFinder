@@ -58,7 +58,7 @@ const sidebarItems = [
   { icon: Users, label: "My Travel Buddies", id: "buddies" },
   { icon: User, label: "Complete Profile", id: "complete" },  // ✅ new tab
   { icon: MessageSquare, label: "Messages", id: "messages" },
-  { icon: Crown, label: "Premium", id: "premium" },
+  // { icon: Crown, label: "Premium", id: "premium" },
   { icon: Settings, label: "Settings", id: "settings" },
 ];
 
@@ -110,13 +110,13 @@ export default function Sidebar({ activeTab, onTabChange }) {
       </ul>
 
       {/* Footer CTA */}
-      {!collapsed && (
-        <div className="p-4 border-t border-gray-200">
-          <button className="w-full bg-emerald-500 text-white py-2 px-4 rounded-lg font-semibold shadow hover:bg-emerald-600 transition">
-            Upgrade to Premium
-          </button>
-        </div>
-      )}
+      {/* {!collapsed && (
+        // <div className="p-4 border-t border-gray-200">
+        //   <button className="w-full bg-emerald-500 text-white py-2 px-4 rounded-lg font-semibold shadow hover:bg-emerald-600 transition">
+        //     Upgrade to Premium
+        //   </button>
+        // </div>
+      )} */}
     </aside>
   );
 }

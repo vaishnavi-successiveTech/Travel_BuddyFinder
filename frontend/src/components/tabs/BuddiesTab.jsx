@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import TripDetailModal from "./TripDetailModal";
 
 export default function BuddiesTab({ tripId }) {
   const [matches, setMatches] = useState([]);
@@ -14,7 +15,12 @@ export default function BuddiesTab({ tripId }) {
   // Normalize server response to { myTrip, buddyTrip }
   const normalizeMatchesResponse = (data) => {
     if (!data) return [];
-    if (Array.isArray(data) && data.length && data[0].buddyTrip === undefined && data[0].myTrip === undefined) {
+    if (
+      Array.isArray(data) &&
+      data.length &&
+      data[0].buddyTrip === undefined &&
+      data[0].myTrip === undefined
+    ) {
       return data.map((trip) => ({ myTrip: null, buddyTrip: trip }));
     }
     return Array.isArray(data) ? data : [];
@@ -43,9 +49,12 @@ export default function BuddiesTab({ tripId }) {
     const fetchRecentMatches = async () => {
       if (!tripId) return;
       try {
-        const res = await axios.get(`http://localhost:4000/api/match/${tripId}`, {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `http://localhost:4000/api/match/${tripId}`,
+          {
+            withCredentials: true,
+          }
+        );
         if (cancelled) return;
         const normalized = normalizeMatchesResponse(res.data);
         setRecentMatches(normalized);
@@ -132,6 +141,7 @@ export default function BuddiesTab({ tripId }) {
 }
 
 function TripCard({ trip, myTrip, onJoin, onMessage, router }) {
+   const [isModalOpen, setIsModalOpen] = useState(false);
   const creator = trip?.creator || {};
   return (
     <div className="border rounded p-4 shadow flex flex-col w-full max-w-sm">
@@ -145,31 +155,40 @@ function TripCard({ trip, myTrip, onJoin, onMessage, router }) {
         <p className="text-sm text-gray-500">
           Matched with your trip:{" "}
           <span className="font-medium">
-            {new Date(myTrip.startDate).toLocaleDateString()} - {new Date(myTrip.endDate).toLocaleDateString()}
+            {new Date(myTrip.startDate).toLocaleDateString()} -{" "}
+            {new Date(myTrip.endDate).toLocaleDateString()}
           </span>
         </p>
       )}
       <p className="mt-1">By: {creator?.name || "Unknown"}</p>
-      <p className="text-sm">Dates: {new Date(trip.startDate).toLocaleDateString()} - {new Date(trip.endDate).toLocaleDateString()}</p>
+      <p className="text-sm">
+        Dates: {new Date(trip.startDate).toLocaleDateString()} -{" "}
+        {new Date(trip.endDate).toLocaleDateString()}
+      </p>
       <p className="text-sm">Budget: {trip.budget}</p>
       <p className="text-sm">Travel Style: {trip.travelStyle?.join(", ")}</p>
       <p className="text-sm mb-2">Activities: {trip.activities?.join(", ")}</p>
 
       <div className="mt-auto flex gap-2 pt-2">
         <button
-          onClick={() => router.push(`/profile/${creator?._id}`)}
+          onClick={() => setIsModalOpen(true)} // 👈 open modal
           className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
         >
-          View Profile
+          View Details
         </button>
-        <button
+         <TripDetailModal
+        trip={trip}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)} // 👈 close modal
+      />
+        {/* <button
           onClick={() => onJoin(trip._id)}
           className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded"
         >
           Join Trip
-        </button>
+        </button> */}
         <button
-          onClick={() => onMessage(creator?._id)}
+          onClick={() => router.push(`/?tab=messages&userId=${creator._id}`)}
           className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded"
         >
           Message
@@ -178,7 +197,6 @@ function TripCard({ trip, myTrip, onJoin, onMessage, router }) {
     </div>
   );
 }
-
 
 // 'use client';
 
