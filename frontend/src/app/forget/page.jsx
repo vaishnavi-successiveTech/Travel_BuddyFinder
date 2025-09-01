@@ -13,9 +13,12 @@ export default function ForgotPasswordPage() {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:4000/api/auth/forgot-password", {
-        email,
-      });
+      const res = await axios.post(
+        "http://localhost:4000/api/auth/forgot-password",
+        {
+          email,
+        }
+      );
 
       setMessage("✅ Reset link has been sent to your email.");
       setEmail("");
@@ -25,7 +28,10 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[750px] bg-black">
+    <div
+      className="flex items-center justify-center min-h-screen bg-cover bg-center p-4"
+      style={{ backgroundImage: "url('/image/backgroundImage.png')" }} // ✅ your background image
+    >
       <div className="bg-gray-900 text-white rounded-2xl shadow-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Forgot Password</h2>
         <form onSubmit={handleForgot} className="space-y-4">

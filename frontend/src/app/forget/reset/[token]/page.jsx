@@ -21,10 +21,13 @@ export default function ResetPasswordPage({ params }) {
     }
 
     try {
-      const res = await axios.post("http://localhost:4000/api/auth/reset-password", {
-        token,
-        password,
-      });
+      const res = await axios.post(
+        "http://localhost:4000/api/auth/reset-password",
+        {
+          token,
+          password,
+        }
+      );
 
       setMessage("✅ Password reset successful! Redirecting to login...");
       setTimeout(() => router.push("/login"), 2000);
@@ -34,7 +37,10 @@ export default function ResetPasswordPage({ params }) {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[750px] bg-black">
+    <div
+      className="flex items-center justify-center min-h-screen bg-cover bg-center p-4"
+      style={{ backgroundImage: "url('/image/backgroundImage.png')" }} // ✅ your background image
+    >
       <div className="bg-gray-900 text-white rounded-2xl shadow-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Reset Password</h2>
         <form onSubmit={handleReset} className="space-y-4">
