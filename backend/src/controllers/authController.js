@@ -203,3 +203,69 @@ export const profile = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.userId; // comes from auth middleware (decoded JWT)
+
+    // Allowed fields to update
+    const { name, email, age, gender, interests, languages, travelStyle, avatar } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        ...(name && { name }),
+        ...(email && { email }),
+        ...(age && { age }),
+        ...(gender && { gender }),
+        ...(interests && { interests }),
+        ...(languages && { languages }),
+        ...(travelStyle && { travelStyle }),
+        ...(avatar && { avatar }),
+      },
+      { new: true, runValidators: true }
+    ).select("-passwordHash");
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({ message: "Profile updated successfully", user: updatedUser });
+  } catch (err) {
+    console.error("Update Profile Error:", err);
+    res.status(500).json({ error: "Server error", details: err.message });
+  }
+};
+
+// controllers/authController.js
+export const updatePrivacy = async (req, res) => {
+  try {
+    const userId = req.userId; // comes from JWT middleware
+    const { showLimitedUntilTrusted } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        visibility: {
+          showLimitedUntilTrusted:
+            typeof showLimitedUntilTrusted === "boolean"
+              ? showLimitedUntilTrusted
+              : true,
+        },
+      },
+      { new: true }
+    ).select("-passwordHash");
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({
+      message: "Privacy settings updated successfully",
+      user: updatedUser,
+    });
+  } catch (err) {
+    console.error("Update Privacy Error:", err);
+    res.status(500).json({ error: "Server error", details: err.message });
+  }
+};

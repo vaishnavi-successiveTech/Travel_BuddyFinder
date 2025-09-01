@@ -4,6 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import { FaEye, FaTrash, FaEdit } from "react-icons/fa"; // Add icons for buttons
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 export default function MyTripsTab() {
   const [trips, setTrips] = useState([]);
@@ -25,7 +26,7 @@ export default function MyTripsTab() {
         setTrips(response.data);
         setLoading(false);
       } catch (err) {
-        setError("Failed to fetch trips");
+           setError("No trips found");
         setLoading(false);
       }
     };
@@ -80,7 +81,7 @@ export default function MyTripsTab() {
     }
   };
 
-  if (loading) return <p>Loading trips...</p>;
+  if (loading)  return <LoadingSpinner />;;
   if (error) return <p>{error}</p>;
 
   return (

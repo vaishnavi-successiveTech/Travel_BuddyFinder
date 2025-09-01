@@ -36,6 +36,7 @@
 // export default Sidebar;
 "use client";
 
+import api from "@/lib/api";
 import {
   Search,
   Plus,
@@ -49,6 +50,9 @@ import {
   User2,
   User,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+
 import { useState } from "react";
 
 const sidebarItems = [
@@ -56,7 +60,7 @@ const sidebarItems = [
   { icon: Plus, label: "Create Trip", id: "create-trip" },
   { icon: Calendar, label: "My Trips", id: "my-trips" },
   { icon: Users, label: "My Travel Buddies", id: "buddies" },
-  { icon: User, label: "Complete Profile", id: "complete" },  // ✅ new tab
+  { icon: User, label: "Complete Profile", id: "complete" }, // ✅ new tab
   { icon: MessageSquare, label: "Messages", id: "messages" },
   // { icon: Crown, label: "Premium", id: "premium" },
   { icon: Settings, label: "Settings", id: "settings" },
@@ -64,7 +68,24 @@ const sidebarItems = [
 
 export default function Sidebar({ activeTab, onTabChange }) {
   const [collapsed, setCollapsed] = useState(false);
+    const router = useRouter();
+   const Logout = async () => {
+  
 
+    try {
+      // Call backend logout API
+      await api.post("/auth/logout");
+
+      // Optionally, clear any client-side auth data (localStorage / cookies)
+      localStorage.removeItem("token");
+
+      // Redirect to login page
+      router.push("/login");
+    } catch (err) {
+      console.error("Logout failed:", err);
+      alert("Failed to logout. Please try again.");
+    }
+  };
   return (
     <aside
       className={`hidden md:flex md:flex-col min-h-screen bg-emerald-50 shadow-xl transition-all duration-300 ${
@@ -82,7 +103,11 @@ export default function Sidebar({ activeTab, onTabChange }) {
           onClick={() => setCollapsed(!collapsed)}
           className="text-gray-800 hover:text-gray-600"
         >
-          {collapsed ? <MenuIcon className="h-5 w-5" /> : <X className="h-5 w-5" />}
+          {collapsed ? (
+            <MenuIcon className="h-5 w-5" />
+          ) : (
+            <X className="h-5 w-5" />
+          )}
         </button>
       </div>
 
@@ -110,18 +135,19 @@ export default function Sidebar({ activeTab, onTabChange }) {
       </ul>
 
       {/* Footer CTA */}
-      {/* {!collapsed && (
-        // <div className="p-4 border-t border-gray-200">
-        //   <button className="w-full bg-emerald-500 text-white py-2 px-4 rounded-lg font-semibold shadow hover:bg-emerald-600 transition">
-        //     Upgrade to Premium
-        //   </button>
-        // </div>
-      )} */}
+      {!collapsed && (
+        <div className="p-4 border-t border-gray-200">
+          <button
+            className="w-full bg-emerald-500 text-white py-2 px-4 rounded-lg font-semibold shadow hover:bg-emerald-600 transition"
+            onClick={Logout}
+          >
+            LogOut
+          </button>
+        </div>
+      )}
     </aside>
   );
 }
-
-
 
 // "use client";
 

@@ -212,6 +212,7 @@ import { useRouter } from "next/navigation"; // 👈 import router
 import { useAuth } from "@/contexts/AuthContext";
 import { FaArrowLeft } from "react-icons/fa";
 import gql from "graphql-tag";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 // GraphQL queries & mutations
 const GET_MESSAGES = gql`
@@ -362,7 +363,7 @@ export default function ChatWindow({ recipient }) {
     }
   };
 
-  if (loading) return <p>Loading chat...</p>;
+  if (loading)  return <LoadingSpinner />;;
 
   return (
     <div className="flex flex-col h-screen sm:h-full bg-white">

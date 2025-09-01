@@ -11,5 +11,7 @@ type Mutation {
 type Subscription {
   messageSent(recipient: ID!): Message!
   newUser: NewUser!
+  tripCreated: Trip!  # ✅ Add this for your trip notifications
+
 }
 

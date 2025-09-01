@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api"; // axios wrapper
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -24,7 +25,7 @@ export default function ProfilePage() {
     fetchProfile();
   }, []);
 
-  if (loading) return <p className="p-4">Loading profile...</p>;
+  if (loading) return <LoadingSpinner />;;
   if (error) return <p className="p-4 text-red-500">{error}</p>;
 
   return (

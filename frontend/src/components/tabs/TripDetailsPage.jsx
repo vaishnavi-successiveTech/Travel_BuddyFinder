@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 export default function TripDetailsPage() {
   const router = useRouter();
@@ -39,7 +40,7 @@ export default function TripDetailsPage() {
     fetchTripDetails();
   }, [tripId]);
 
-  if (loading) return <p>Loading trip details...</p>;
+  if (loading) return <LoadingSpinner />;;
   if (error) return <p>{error}</p>;
   if (!trip) return <p>Trip not found</p>;
 

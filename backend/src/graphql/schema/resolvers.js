@@ -2,10 +2,10 @@ import Message from "../../models/Message.js";
 import User from "../../models/User.js";
 import { PubSub, withFilter } from "graphql-subscriptions";
 import { NEW_USER, pubsub } from "../server/pubsub.js";
-
+import Trip from "../../models/Trip.js";
 
 const MESSAGE_SENT = "MESSAGE_SENT";
-
+const NEW_TRIP = "NEW_TRIP";
 
 export const resolvers = {
   Query: {
@@ -14,31 +14,35 @@ export const resolvers = {
 
     // Get messages between sender and recipient
     messages: async (_, { sender, recipient }) => {
-  try {
-    let msgs = await Message.find({
-      $or: [
-        { sender, recipient },
-        { sender: recipient, recipient: sender },
-      ],
-    }).sort({ createdAt: 1 }); // Sort by creation date
+      try {
+        let msgs = await Message.find({
+          $or: [
+            { sender, recipient },
+            { sender: recipient, recipient: sender },
+          ],
+        }).sort({ createdAt: 1 }); // Sort by creation date
 
-    // Populate sender and recipient safely
-    msgs = await Promise.all(
-      msgs.map(async (msg) => {
-        const senderUser = await User.findById(msg.sender).select("_id name email avatar");
-        const recipientUser = await User.findById(msg.recipient).select("_id name email avatar");
-        if (!senderUser || !recipientUser) return null; // skip invalid messages
-        msg.sender = senderUser;
-        msg.recipient = recipientUser;
-        return msg;
-      })
-    );
+        // Populate sender and recipient safely
+        msgs = await Promise.all(
+          msgs.map(async (msg) => {
+            const senderUser = await User.findById(msg.sender).select(
+              "_id name email avatar"
+            );
+            const recipientUser = await User.findById(msg.recipient).select(
+              "_id name email avatar"
+            );
+            if (!senderUser || !recipientUser) return null; // skip invalid messages
+            msg.sender = senderUser;
+            msg.recipient = recipientUser;
+            return msg;
+          })
+        );
 
-    return msgs.filter(Boolean);
-  } catch (err) {
-    throw new Error("Error fetching messages: " + err.message);
-  }
-}
+        return msgs.filter(Boolean);
+      } catch (err) {
+        throw new Error("Error fetching messages: " + err.message);
+      }
+    },
 
     // messages: async (_, { sender, recipient }) => {
     //   try {
@@ -71,8 +75,12 @@ export const resolvers = {
   Mutation: {
     sendMessage: async (_, { sender, recipient, content }) => {
       // Validate users exist
-      const senderUser = await User.findById(sender).select("_id name email avatar");
-      const recipientUser = await User.findById(recipient).select("_id name email avatar");
+      const senderUser = await User.findById(sender).select(
+        "_id name email avatar"
+      );
+      const recipientUser = await User.findById(recipient).select(
+        "_id name email avatar"
+      );
       if (!senderUser || !recipientUser) {
         throw new Error("Sender or recipient not found");
       }
@@ -100,8 +108,12 @@ export const resolvers = {
       message.read = true;
 
       // Populate sender and recipient before returning
-      const senderUser = await User.findById(message.sender).select("_id name email avatar");
-      const recipientUser = await User.findById(message.recipient).select("_id name email avatar");
+      const senderUser = await User.findById(message.sender).select(
+        "_id name email avatar"
+      );
+      const recipientUser = await User.findById(message.recipient).select(
+        "_id name email avatar"
+      );
 
       message.sender = senderUser;
       message.recipient = recipientUser;
@@ -117,16 +129,25 @@ export const resolvers = {
         () => pubsub.asyncIterableIterator(MESSAGE_SENT),
         (payload, variables) => {
           // deliver only if recipient matches
-          return payload.messageSent.recipient._id.toString() === variables.recipient;
+          return (
+            payload.messageSent.recipient._id.toString() === variables.recipient
+          );
         }
       ),
     },
-     newUser: {
+    newUser: {
       subscribe: () => pubsub.asyncIterableIterator([NEW_USER]),
+    },
+    tripCreated: {
+      subscribe: () => pubsub.asyncIterableIterator([NEW_TRIP]),
+    },
+  },
+   Trip: {
+    creator: async (parent) => {
+      return await User.findById(parent.creator);
     },
   },
 };
-
 
 // import Message from "../../models/Message.js";
 // import User from "../../models/User.js";

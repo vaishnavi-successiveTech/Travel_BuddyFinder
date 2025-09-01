@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Users, Wallet } from "lucide-react";
 import TripDetailModal from "../tabs/TripDetailModal";
 
-
 export default function TravelCard({ trip }) {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -22,9 +21,12 @@ export default function TravelCard({ trip }) {
         {/* Right: Trip Details */}
         <div className="flex-1 p-6 flex flex-col justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">{trip.destination}</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              {trip.destination}
+            </h2>
             <p className="text-gray-600 mb-1">
-              Trip with <span className="font-semibold">{trip.creator?.name}</span>
+              Trip with{" "}
+              <span className="font-semibold">{trip.creator?.name}</span>
             </p>
             <p className="text-gray-500">
               {new Date(trip.startDate).toLocaleDateString()} -{" "}
@@ -51,12 +53,16 @@ export default function TravelCard({ trip }) {
             <div className="flex items-center space-x-2">
               <Wallet className="h-5 w-5 text-yellow-500" />
               <span className="font-semibold">Split costs:</span>
-              <span className="text-emerald-500 font-bold">{trip.openToJoin ? "YES" : "NO"}</span>
+              <span className="text-emerald-500 font-bold">
+                {trip.openToJoin ? "YES" : "NO"}
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <Wallet className="h-5 w-5 text-yellow-500" />
               <span className="font-semibold">Budget:</span>
-              <span className="text-emerald-500 font-bold">{trip.budget?.toUpperCase()}</span>
+              <span className="text-emerald-500 font-bold">
+                {trip.budget?.toUpperCase()}
+              </span>
             </div>
           </div>
 
@@ -76,7 +82,11 @@ export default function TravelCard({ trip }) {
 
       {/* Modal */}
       {modalOpen && (
-        <TripDetailModal trip={trip} isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+        <TripDetailModal
+          trip={trip}
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+        />
       )}
     </>
   );

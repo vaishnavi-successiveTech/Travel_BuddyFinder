@@ -1,5 +1,6 @@
 import { tripValidationSchema } from "../middleware/validation.js";
 import Trip from "../models/Trip.js";
+import { NEW_TRIP, pubsub } from "../graphql/server/pubsub.js";
 
 // export const createTrip = async (req, res) => {
 //   try {
@@ -46,6 +47,7 @@ export async function createTrip(req, res) {
     if (error) return res.status(400).json({ errors: error.details });
 
     const t = await Trip.create(value);
+       pubsub.publish(NEW_TRIP, { tripCreated: t });
     res.json(t);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -71,9 +73,9 @@ export async function alltrips(req, res) {
 }
 export async function myTrips(req, res) {
 
-  console.log('User ID from token:', req.userId);  // Log the user ID
+  // console.log('User ID from token:', req.userId);  // Log the user ID
   const list = await Trip.find({ creator: req.userId }).sort({ startDate: 1 });
-  console.log('Trips found:', list);  // Log the fetched trips
+  // console.log('Trips found:', list);  // Log the fetched trips
 
   if (list.length === 0) {
     return res.status(404).json({ error: "No trips found" });

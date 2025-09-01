@@ -14,37 +14,32 @@ export default function DiscoverTab() {
   const [dateTo, setDateTo] = useState("");
   const [results, setResults] = useState([]);
 
-  // Pagination state
+  // Pagination
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Error for empty-search guard
+  // Error handling
   const [error, setError] = useState("");
 
-  // Helper to check if any filter is filled
-  const anyFilterFilled = () => {
-    return (
-      destination.trim() ||
-      gender.trim() ||
-      ageRange.trim() ||
-      budget.trim() ||
-      tripType.trim() ||
-      dateFrom.trim() ||
-      dateTo.trim()
-    );
-  };
+  // Check if any filter is used
+  const anyFilterFilled = () =>
+    destination.trim() ||
+    gender.trim() ||
+    ageRange.trim() ||
+    budget.trim() ||
+    tripType.trim() ||
+    dateFrom.trim() ||
+    dateTo.trim();
 
   // Search handler
   const handleSearch = async (e = null, newPage = 1) => {
     if (e) e.preventDefault();
 
-    // If user explicitly clicked Search (e exists) but no filters filled -> do nothing
     if (e && !anyFilterFilled()) {
       setError("Please fill at least one field to search.");
       return;
     }
 
-    // Clear previous error when performing a valid search/fetch
     setError("");
 
     let ageMin, ageMax;
@@ -79,23 +74,22 @@ export default function DiscoverTab() {
     }
   };
 
-  // Load all trips on first render (default view)
   useEffect(() => {
     handleSearch(null, 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // run once on mount
+  }, []);
 
   return (
     <div className="p-4">
-      <h1 className="text-5xl font-extrabold text-center bg-gradient-to-r from-emerald-500 to-yellow-300 bg-clip-text text-transparent">
+      <h1 className="text-4xl sm:text-5xl font-extrabold text-center bg-gradient-to-r from-emerald-500 to-yellow-300 bg-clip-text text-transparent">
         Where to next?
       </h1>
 
       {/* Travel Form */}
       <form className="space-y-4 mt-8" onSubmit={(e) => handleSearch(e, 1)}>
-        <div className="flex gap-4">
-          {/* Destination Select */}
-          <div className="w-1/2">
+        {/* Destination + Gender */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="w-full sm:w-1/2">
             <label className="block text-sm font-medium text-black">Main</label>
             <select
               className="w-full p-2 border rounded-md text-black max-h-40 overflow-y-auto"
@@ -103,8 +97,6 @@ export default function DiscoverTab() {
               onChange={(e) => setDestination(e.target.value)}
             >
               <option value="">Select destination</option>
-
-              {/* Popular */}
               <option>Chopta</option>
               <option>Goa</option>
               <option>Jodhpur</option>
@@ -115,51 +107,25 @@ export default function DiscoverTab() {
               <option>Pune</option>
               <option>Ranchi</option>
               <option>Valley of Flowers</option>
-
               {/* States */}
               <option>Andhra Pradesh</option>
-              <option>Arunachal Pradesh</option>
-              <option>Assam</option>
-              <option>Bihar</option>
-              <option>Chhattisgarh</option>
-              <option>Goa</option>
-              <option>Gujarat</option>
-              <option>Haryana</option>
               <option>Himachal Pradesh</option>
-              <option>Jharkhand</option>
-              <option>Karnataka</option>
               <option>Kerala</option>
-              <option>Madhya Pradesh</option>
               <option>Maharashtra</option>
-              <option>Manipur</option>
-              <option>Meghalaya</option>
-              <option>Mizoram</option>
-              <option>Nagaland</option>
-              <option>Odisha</option>
-              <option>Punjab</option>
               <option>Rajasthan</option>
-              <option>Sikkim</option>
               <option>Tamil Nadu</option>
-              <option>Telangana</option>
-              <option>Tripura</option>
               <option>Uttar Pradesh</option>
               <option>Uttarakhand</option>
               <option>West Bengal</option>
-
               {/* Union Territories */}
-              <option>Andaman and Nicobar Islands</option>
-              <option>Chandigarh</option>
-              <option>Dadra and Nagar Haveli and Daman and Diu</option>
               <option>Delhi</option>
               <option>Jammu and Kashmir</option>
               <option>Ladakh</option>
-              <option>Lakshadweep</option>
               <option>Puducherry</option>
             </select>
           </div>
 
-          {/* Gender Select */}
-          <div className="w-1/2">
+          <div className="w-full sm:w-1/2">
             <label className="block text-sm text-black font-medium">
               Gender
             </label>
@@ -176,9 +142,9 @@ export default function DiscoverTab() {
           </div>
         </div>
 
-        <div className="flex gap-4">
-          {/* Age Group Select */}
-          <div className="w-1/2">
+        {/* Age + Dates */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="w-full sm:w-1/2">
             <label className="block text-sm font-medium text-black">Age</label>
             <select
               className="w-full p-2 text-black border rounded-md"
@@ -194,10 +160,8 @@ export default function DiscoverTab() {
             </select>
           </div>
 
-          {/* Travel Dates */}
-          <div className="w-1/2 flex gap-2">
-            {/* Start Date */}
-            <div className="w-1/2">
+          <div className="w-full sm:w-1/2 flex flex-col sm:flex-row gap-2">
+            <div className="w-full sm:w-1/2">
               <label className="block text-sm font-medium text-black">
                 Date from
               </label>
@@ -205,13 +169,12 @@ export default function DiscoverTab() {
                 type="date"
                 className="w-full p-2 text-black border rounded-md"
                 value={dateFrom}
-                min={new Date().toISOString().split("T")[0]} // today's date
+                min={new Date().toISOString().split("T")[0]}
                 onChange={(e) => setDateFrom(e.target.value)}
               />
             </div>
 
-            {/* End Date */}
-            <div className="w-1/2">
+            <div className="w-full sm:w-1/2">
               <label className="block text-sm font-medium text-black">to</label>
               <input
                 type="date"
@@ -224,9 +187,9 @@ export default function DiscoverTab() {
           </div>
         </div>
 
-        <div className="flex gap-4">
-          {/* Trip Type Select */}
-          <div className="w-1/2">
+        {/* Trip Type + Budget */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="w-full sm:w-1/2">
             <label className="block text-sm font-medium text-black">
               Trip Type
             </label>
@@ -237,39 +200,22 @@ export default function DiscoverTab() {
             >
               <option value="">Select trip type</option>
               <option>Backpacker</option>
-              <option>Beach</option>
-              <option>Luxury</option>
-              <option>Resort</option>
-              <option>Hiking</option>
               <option>Adventure</option>
-              <option>Historical</option>
-              <option>Cultural</option>
               <option>Group</option>
               <option>Solo</option>
               <option>Wildlife</option>
-              <option>Nature</option>
               <option>Road Trip</option>
               <option>Spiritual</option>
-              <option>Wellness</option>
-              <option>Cruise</option>
-              <option>Photography</option>
               <option>Festival</option>
-              <option>Food &amp; Culinary</option>
-              <option>Romantic</option>
               <option>Family</option>
               <option>Camping</option>
-              <option>Eco-Tourism</option>
-              <option>Snow &amp; Ski</option>
+              <option>Snow & Ski</option>
               <option>Safari</option>
-              <option>Desert</option>
-              <option>Island</option>
               <option>City Break</option>
-              <option>Business</option>
             </select>
           </div>
 
-          {/* Budget Select */}
-          <div className="w-1/2">
+          <div className="w-full sm:w-1/2">
             <label className="block text-sm font-medium text-black">
               Budget
             </label>
@@ -296,7 +242,6 @@ export default function DiscoverTab() {
           </button>
         </div>
 
-        {/* show error message for empty-search */}
         {error && (
           <div className="mt-2 text-center text-red-500 text-sm">{error}</div>
         )}
@@ -304,7 +249,7 @@ export default function DiscoverTab() {
 
       {/* Results */}
       <div className="p-6">
-        <h1 className="text-3xl font-bold text-emerald-600 mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-emerald-600 mb-6 text-center sm:text-left">
           Recommended Travel Buddy
         </h1>
 
@@ -312,13 +257,15 @@ export default function DiscoverTab() {
           {results.length > 0 ? (
             results.map((trip) => <TravelCard key={trip._id} trip={trip} />)
           ) : (
-            <p className="text-gray-500">No trips found</p>
+            <p className="text-gray-500 text-center sm:text-left">
+              No trips found
+            </p>
           )}
         </div>
 
-        {/* Pagination Controls */}
+        {/* Pagination */}
         {results.length > 0 && (
-          <div className="flex justify-center gap-4 mt-6">
+          <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center gap-4 mt-6">
             <button
               disabled={page === 1}
               onClick={() => handleSearch(null, page - 1)}
@@ -326,7 +273,7 @@ export default function DiscoverTab() {
             >
               Previous
             </button>
-            <span className="px-4 py-2">
+            <span className="px-4 py-2 text-sm sm:text-base">
               Page {page} of {totalPages}
             </span>
             <button

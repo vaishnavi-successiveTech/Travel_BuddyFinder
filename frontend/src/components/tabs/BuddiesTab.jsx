@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import TripDetailModal from "./TripDetailModal";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 export default function BuddiesTab({ tripId }) {
   const [matches, setMatches] = useState([]);
@@ -89,7 +90,7 @@ export default function BuddiesTab({ tripId }) {
     router.push(`/chat/${creatorId}`);
   };
 
-  if (loading) return <p>Loading matches...</p>;
+  if (loading) return <LoadingSpinner />;;
   if (error) return <p className="text-red-500">{error}</p>;
   if (!matches.length) return <p>No matching trips found.</p>;
 

@@ -4,6 +4,8 @@ import { useState } from "react";
 import axios from "axios";
 import api from "@/lib/api";
 
+
+
 export default function CreateTripTab() {
   const [formData, setFormData] = useState({
     destination: "",

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Plane, Users, Globe, Shield, Star, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const features = [
   {
@@ -326,7 +327,15 @@ export default function LandingPage() {
             <h4 className="font-semibold mb-3">Support</h4>
             <ul className="space-y-2 text-gray-300">
               <li>Help Center</li>
-              <li>Contact Us</li>
+              <li>
+                {" "}
+                <Link
+                  href="/contactPage"
+                  className="hover:text-yellow-300 transition"
+                >
+                  Contact Us
+                </Link>
+              </li>
               <li>Privacy Policy</li>
               <li>Terms of Service</li>
             </ul>

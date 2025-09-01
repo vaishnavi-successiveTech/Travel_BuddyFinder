@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ChatWindow from "./ChatWindow";
 import gql from "graphql-tag";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 const GET_USERS = gql`
   query GetUsers {
@@ -32,7 +33,7 @@ export default function MessagesTab() {
     }
   }, [userIdFromUrl, data]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <LoadingSpinner />;;
   if (error) return <p className="text-red-500">Error: {error.message}</p>;
   if (!data?.users) return <p>No users found.</p>;
 

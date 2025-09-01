@@ -1,0 +1,16 @@
+type Trip {
+  _id: ID!
+  creator: User!
+  destination: String!
+  startDate: String!
+  endDate: String!
+  activities: [String!]
+  openToJoin: Boolean!
+  budget: String!
+  travelStyle: [String!]
+  maxGroupSize: Int!
+  imageUrl: String
+  description: String
+  createdAt: String!
+  updatedAt: String!
+}

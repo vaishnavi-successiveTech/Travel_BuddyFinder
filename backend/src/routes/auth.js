@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register, login, me, logout, completeProfile, forgotPassword, resetPassword } from "../controllers/authController.js";
+import { register, login, me, logout, completeProfile, forgotPassword, resetPassword, updateProfile, updatePrivacy } from "../controllers/authController.js";
 import { authRequired } from "../middleware/auth.js";
 import { upload } from "../middleware/multerImage.js";
 import User from "../models/User.js";
@@ -34,7 +34,10 @@ r.post("/upload-avatar", authRequired, upload.single("image"), async (req, res) 
     res.status(500).json({ error: "Failed to upload image" });
   }
 });
+r.patch("/updateProfile", authRequired, updateProfile);
+r.patch("/updatePrivacy", authRequired, updatePrivacy);
 
 r.post("/forgot-password", forgotPassword);
+
 r.post("/reset-password", resetPassword);
 export default r;
