@@ -63,11 +63,11 @@ export default function Signup() {
     setError("");
     setSuccess("");
 
-    //    const validationError = validateForm();
-    // if (validationError) {
-    //   setError(validationError);
-    //   return;
-    // }
+       const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
     try {
       const res = await api.post("/auth/register", {
         name,
