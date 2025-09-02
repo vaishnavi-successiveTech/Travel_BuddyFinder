@@ -101,6 +101,8 @@ MONGO_URI=mongodb://localhost:27017/travel_buddy
 JWT_SECRET=a_very_strong_and_long_secret_key
 
 # Optional: API keys for external services
+EMAIL_USER=vaish1234yupp@gmail.com
+EMAIL_PASS=
 # GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 ```
 
