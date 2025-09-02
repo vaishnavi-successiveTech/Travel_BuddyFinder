@@ -74,7 +74,7 @@ Make sure you have the following installed on your system:
 
 3.  **Install Frontend Dependencies:**
     ```bash
-    cd frontend
+    cd ../frontend
     npm install
     ```
 
@@ -145,15 +145,4 @@ The application will open in your browser at `http://localhost:3000`.
 - AI-powered smart buddy recommendations.  
 - Trip expense tracking with auto cost-split.    
 - Community forums for travelers.  
-
 ---
-
-## 🤝 Contributing
-
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. Please refer to the `CONTRIBUTING.md` file for our contribution guidelines.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
