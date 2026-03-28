@@ -16,7 +16,7 @@ import { useSearchParams } from "next/navigation";
 export default function Dashboard() {
   const [currentTripId, setCurrentTripId] = useState(null);
   const searchParams = useSearchParams();
-     const tabFromUrl = searchParams.get("tab") || "discover";
+     const tabFromUrl = searchParams.get("tab") ||"discover";
 
   const [activeTab, setActiveTab] = useState(tabFromUrl);
 

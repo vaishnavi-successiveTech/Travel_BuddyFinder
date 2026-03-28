@@ -15,7 +15,7 @@ export default function CreateTripTab() {
     openToJoin: true,
     budget: "mid",
     travelStyle: "",
-    maxGroupSize: 1,
+    maxGroupSize: "",
     imageUrl: "",
     description: "",
   });
@@ -98,23 +98,24 @@ export default function CreateTripTab() {
           className="w-full p-3 border text-black border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"
           rows={4}
         />
+        <label > Start Date :</label>
         <input
           type="date"
           name="startDate"
           value={formData.startDate}
           onChange={handleChange}
           className="w-full p-3 border text-black border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          min={new Date().toISOString().split("T")[0]} // ✅ today’s date
+          min={new Date().toISOString().split("T")[0]} //  today’s date
           required
         />
-
+        <label > End Date :</label>
         <input
           type="date"
           name="endDate"
           value={formData.endDate}
           onChange={handleChange}
           className="w-full p-3 border text-black border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          min={formData.startDate || new Date().toISOString().split("T")[0]} // ✅ after start date
+          min={formData.startDate || new Date().toISOString().split("T")[0]} //  after start date
           required
         />
         <input
@@ -139,7 +140,7 @@ export default function CreateTripTab() {
           placeholder="Max Group Size"
           value={formData.maxGroupSize}
           onChange={handleChange}
-          min={1} // ✅ prevents negative numbers
+          min={1} // prevents negative numbers
           className="w-full p-3 border text-black border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"
         />
         <input
@@ -150,6 +151,7 @@ export default function CreateTripTab() {
           onChange={handleChange}
           className="w-full p-3 border border-gray-300  text-black rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"
         />
+        <label > Budget Size : </label>
         <select
           name="budget"
           value={formData.budget}

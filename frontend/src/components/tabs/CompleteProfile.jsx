@@ -321,7 +321,7 @@ export const ProfileForm = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setProfileCompleted(res.data.profileCompleted);
-        // Optional: you can also pre-fill form fields if needed
+      
         setFormData((prev) => ({
           ...prev,
           age: res.data.age || "",
@@ -363,7 +363,7 @@ export const ProfileForm = () => {
     }
   };
 
-  // ✅ Upload avatar
+
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -415,7 +415,7 @@ export const ProfileForm = () => {
         interests: [],
         languages: [],
         travelStyle: [],
-        avatar: "", // ✅ store uploaded image
+        avatar: "", //  store uploaded image
         preferences: {
           budget: "",
           preferredGenders: [],
@@ -452,7 +452,7 @@ export const ProfileForm = () => {
             type="file"
             accept="image/*"
             onChange={handleImageUpload}
-            disabled={uploading || profileCompleted} // ✅ disabled if completed
+            disabled={uploading || profileCompleted}
             className="w-full border px-3 py-2 rounded"
           />
           {uploading && <p className="text-sm text-gray-500">Uploading...</p>}
@@ -466,7 +466,7 @@ export const ProfileForm = () => {
             value={formData.age}
             onChange={(e) => setFormData({ ...formData, age: e.target.value })}
             className="w-full border px-3 py-2 rounded"
-            disabled={profileCompleted} // ✅ disabled if completed
+            disabled={profileCompleted} //  disabled if completed
           />
         </div>
 
@@ -484,7 +484,7 @@ export const ProfileForm = () => {
             }
             placeholder="e.g. Hiking, Camping"
             className="w-full border px-3 py-2 rounded"
-            disabled={profileCompleted} // ✅ disabled if completed
+            disabled={profileCompleted} // disabled if completed
           />
         </div>
 
@@ -502,7 +502,7 @@ export const ProfileForm = () => {
                     ? "bg-emerald-500 text-white"
                     : "bg-gray-200"
                 }`}
-                disabled={profileCompleted} // ✅ disabled if completed
+                disabled={profileCompleted} //  disabled if completed
               >
                 {lang}
               </button>
@@ -524,7 +524,7 @@ export const ProfileForm = () => {
                     ? "bg-yellow-400"
                     : "bg-gray-200"
                 }`}
-                disabled={profileCompleted} // ✅ disabled if completed
+                disabled={profileCompleted} //  disabled if completed
               >
                 {style}
               </button>
@@ -548,7 +548,7 @@ export const ProfileForm = () => {
               })
             }
             className="w-full border px-3 py-2 rounded"
-            disabled={profileCompleted} // ✅ disabled if completed
+            disabled={profileCompleted} //  disabled if completed
           >
             <option value="">Select</option>
             <option value="low">Low</option>
@@ -573,7 +573,7 @@ export const ProfileForm = () => {
                     ? "bg-emerald-500 text-white"
                     : "bg-gray-200"
                 }`}
-                disabled={profileCompleted} // ✅ disabled if completed
+                disabled={profileCompleted} //  disabled if completed
               >
                 {gender}
               </button>
@@ -601,7 +601,7 @@ export const ProfileForm = () => {
               });
             }}
             className="w-full border px-3 py-2 rounded"
-            disabled={profileCompleted} // ✅ disabled if completed
+            disabled={profileCompleted} // disabled if completed
           >
             <option value="trekking">Trekking</option>
             <option value="beach">Beach</option>
@@ -613,7 +613,7 @@ export const ProfileForm = () => {
         {/* Submit */}
         <button
           type="submit"
-          disabled={loading || profileCompleted} // ✅ disable if profileCompleted
+          disabled={loading || profileCompleted} //  disable if profileCompleted
           className={`w-full py-2 rounded font-bold ${
             loading || profileCompleted
               ? "bg-gray-300 cursor-not-allowed"
@@ -644,7 +644,7 @@ export const ProfileForm = () => {
 //     interests: [],
 //     languages: [],
 //     travelStyle: [],
-//     avatar: "", // ✅ store uploaded image
+//     avatar: "", //  store uploaded image
 //     preferences: {
 //       budget: "",
 //       preferredGenders: [],
@@ -677,7 +677,7 @@ export const ProfileForm = () => {
 //     }
 //   };
 
-//   // ✅ Upload avatar
+//   //  Upload avatar
 //   const handleImageUpload = async (e) => {
 //     const file = e.target.files[0];
 //     if (!file) return;
@@ -702,7 +702,7 @@ export const ProfileForm = () => {
 
 //       setFormData((prev) => ({
 //         ...prev,
-//         avatar: res.data.imageUrl, // ✅ update state with uploaded URL
+//         avatar: res.data.imageUrl, //  update state with uploaded URL
 //       }));
 //     } catch (err) {
 //       setError(err.response?.data?.error || "Failed to upload image");
@@ -729,7 +729,7 @@ export const ProfileForm = () => {
 //         interests: [],
 //         languages: [],
 //         travelStyle: [],
-//         avatar: "", // ✅ store uploaded image
+//         avatar: "", //  store uploaded image
 //         preferences: {
 //           budget: "",
 //           preferredGenders: [],
@@ -918,7 +918,7 @@ export const ProfileForm = () => {
 //         {/* Submit */}
 //         <button
 //           type="submit"
-//           disabled={loading || profileCompleted} // ✅ disable if profileCompleted
+//           disabled={loading || profileCompleted} //  disable if profileCompleted
 //           className={`w-full py-2 rounded font-bold ${
 //             loading || profileCompleted
 //               ? "bg-gray-300 cursor-not-allowed"

@@ -49,6 +49,7 @@ import {
   Menu as MenuIcon,
   User2,
   User,
+  UsbIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -62,6 +63,7 @@ const sidebarItems = [
   { icon: Users, label: "My Travel Buddies", id: "buddies" },
   { icon: User, label: "Complete Profile", id: "complete" }, // ✅ new tab
   { icon: MessageSquare, label: "Messages", id: "messages" },
+  { icon:UsbIcon,label:"Fiends",id:"friends"},
   // { icon: Crown, label: "Premium", id: "premium" },
   { icon: Settings, label: "Settings", id: "settings" },
 ];

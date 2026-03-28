@@ -86,9 +86,12 @@ export default function BuddiesTab({ tripId }) {
   };
 
   const handleMessage = (creatorId) => {
+    console.log("working here")
     if (!creatorId) return;
     router.push(`/chat/${creatorId}`);
   };
+
+ 
 
   if (loading) return <LoadingSpinner />;;
   if (error) return <p className="text-red-500">{error}</p>;
@@ -142,6 +145,11 @@ export default function BuddiesTab({ tripId }) {
 }
 
 function TripCard({ trip, myTrip, onJoin, onMessage, router }) {
+   const forMessage = (creatorId) => {
+    console.log("working here")
+    if (!creatorId) return;
+    router.push(`/?tab=messages&userId=${creatorId}`);
+  };
    const [isModalOpen, setIsModalOpen] = useState(false);
   const creator = trip?.creator || {};
   return (
@@ -189,7 +197,8 @@ function TripCard({ trip, myTrip, onJoin, onMessage, router }) {
           Join Trip
         </button> */}
         <button
-          onClick={() => router.push(`/?tab=messages&userId=${creator._id}`)}
+             onClick={() => forMessage(trip.creator._id)}
+          // onClick={() => router.push(`/?tab=messages&userId=${creator._id}`)}
           className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded"
         >
           Message

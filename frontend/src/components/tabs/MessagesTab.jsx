@@ -22,7 +22,7 @@ export default function MessagesTab() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const userIdFromUrl = searchParams.get("userId"); // 👈 from URL
+  const userIdFromUrl = searchParams.get("userId"); 
   const [selectedUser, setSelectedUser] = useState(null);
 
   // Preselect user if userId is in URL
@@ -55,7 +55,7 @@ export default function MessagesTab() {
               }`}
               onClick={() => {
                 setSelectedUser(user);
-                router.replace(`/?tab=messages&userId=${user._id}`); // 👈 update URL without reload
+                router.replace(`/?tab=messages&userId=${user._id}`); // update URL without reload
               }}
             >
               <img
