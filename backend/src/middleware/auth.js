@@ -2,7 +2,7 @@
 import jwt from "jsonwebtoken";
 
 export function authRequired(req, res, next) {
-  // Try cookie first, then Authorization header
+  
   let token = req.cookies?.token;
 
   if (!token && req.headers.authorization) {

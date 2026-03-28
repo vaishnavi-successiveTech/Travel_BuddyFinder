@@ -120,35 +120,37 @@ export async function getTripById(req, res) {
     res.status(500).json({ error: "Server error", details: err.message });
   }
 }
+// export async function updateTrip(req, res) {
+//   try {
+//     const { id } = req.params;
+
+//     // Validate request body
+//     const { error, value } = updateTripValidationSchema.validate(req.body, { abortEarly: false });
+//     if (error) return res.status(400).json({ errors: error.details });
+
+//     // Find and update only validated fields
+//     const t = await Trip.findOneAndUpdate(
+//       { _id: id, creator: req.userId },
+//       value,
+//       { new: true }
+//     );
+
+//     if (!t) return res.status(404).json({ error: "Trip not found or you are not the creator" });
+
+//     res.json(t);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// }
+
 export async function updateTrip(req, res) {
-  try {
-    const { id } = req.params;
-
-    // Validate request body
-    const { error, value } = updateTripValidationSchema.validate(req.body, { abortEarly: false });
-    if (error) return res.status(400).json({ errors: error.details });
-
-    // Find and update only validated fields
-    const t = await Trip.findOneAndUpdate(
-      { _id: id, creator: req.userId },
-      value,
-      { new: true }
-    );
-
-    if (!t) return res.status(404).json({ error: "Trip not found or you are not the creator" });
-
-    res.json(t);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const { id } = req.params;
+  const t = await Trip.findOneAndUpdate({ _id: id, creator: req.userId }, req.body, { new: true });
+  if (!t) return res.status(404).json({ error: "Not found" });
+  res.json(t);
 }
 
-// export async function updateTrip(req, res) {
-//   const { id } = req.params;
-//   const t = await Trip.findOneAndUpdate({ _id: id, creator: req.userId }, req.body, { new: true });
-//   if (!t) return res.status(404).json({ error: "Not found" });
-//   res.json(t);
-// }
+
 export async function deleteTrip(req, res) {
   const { id } = req.params;
   const ok = await Trip.findOneAndDelete({ _id: id, creator: req.userId });

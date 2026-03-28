@@ -1,6 +1,6 @@
  type Message {
     _id: ID!
-    sender: User!       # ✅ instead of just ID
+    sender: User!       #  instead of just ID
     recipient: User! 
     content: String!
     read: Boolean!
@@ -12,5 +12,4 @@ type User {
   name: String
   email: String
   avatar: String
-  # add any other fields your User model has
 }

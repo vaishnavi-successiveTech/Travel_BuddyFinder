@@ -74,7 +74,7 @@ export const resolvers = {
 
   Mutation: {
     sendMessage: async (_, { sender, recipient, content }) => {
-      // Validate users exist
+    
       const senderUser = await User.findById(sender).select(
         "_id name email avatar"
       );

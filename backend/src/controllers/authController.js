@@ -6,36 +6,37 @@ import { completeProfileSchema, loginSchema, signupSchema } from "../middleware/
 import { NEW_USER, pubsub } from "../graphql/server/pubsub.js";
 
  
-  // Import Joi validation
-
-// Signup
 export async function register(req, res) {
-  // Validate request body using Joi
-  const { error } = signupSchema.validate(req.body);
+
+  try{const { error } = signupSchema.validate(req.body);
   if (error) return res.status(400).json({ error: error.details[0].message });
 
   const { name, email, password, gender } = req.body;
 
-  // Check if user already exists
+ 
   const exists = await User.findOne({ email });
   if (exists) return res.status(409).json({ error: "Email already registered" });
 
-  // Hash password
+ 
   const passwordHash = await bcrypt.hash(password, 10);
 
-  // Create user
+ 
   const user = await User.create({ name, email, passwordHash, gender });
 
-  // Publish the new user event
+
   pubsub.publish(NEW_USER, { newUser: user });
 
-  // Respond
-  res.json({ ok: true, userId: user._id });
+
+  res.json({ ok: true, userId: user._id });}
+  catch(error){
+    console.error("Signup error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 }
 
-// Login
+
 export async function login(req, res) {
-  const { error } = loginSchema.validate(req.body); // Validate login request
+  const { error } = loginSchema.validate(req.body); 
   if (error) return res.status(400).json({ error: error.details[0].message });
 
   const { email, password } = req.body;
@@ -57,7 +58,7 @@ export async function login(req, res) {
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "lax",
-      secure: false, // set to true in production with HTTPS
+      secure: false, 
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -79,11 +80,11 @@ export async function login(req, res) {
 
 // Complete Profile
 export const completeProfile = async (req, res) => {
-  const { error } = completeProfileSchema.validate(req.body); // Validate profile data
+  const { error } = completeProfileSchema.validate(req.body); 
   if (error) return res.status(400).json({ error: error.details[0].message });
 
   try {
-    const userId = req.userId; // from JWT middleware
+    const userId = req.userId; 
     const { age, interests, languages, travelStyle, preferences,avatar} = req.body;
 
     const updatedUser = await User.findByIdAndUpdate(
@@ -168,7 +169,6 @@ export async function forgotPassword(req, res) {
   }
 }
 
-// ================= Reset Password =================
 export async function resetPassword(req, res) {
   try {
     const { token, password } = req.body;
@@ -194,7 +194,6 @@ export async function resetPassword(req, res) {
   }
 }
 
-// ================= Protected Profile =================
 export const profile = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-passwordHash");
